@@ -1,0 +1,18 @@
+def plot_model(svm_classifier):
+    # plot the decision function
+    ax = plt.gca()
+    xlim = ax.get_xlim()
+    ylim = ax.get_ylim()
+    # create grid to evaluate model
+    plotting_step = 100
+    xx = np.linspace(xlim[0], xlim[1], plotting_step)
+    yy = np.linspace(ylim[0], ylim[1], plotting_step)
+    YY, XX = np.meshgrid(yy, xx)
+    xy = np.vstack([XX.ravel(), YY.ravel()]).T
+    Z = svm_classifier.decision_function(xy).reshape(XX.shape)
+    # plot decision boundary and margins
+    ax.contour(XX, YY, Z, colors='k', levels=[-1, 0, 1], alpha=0.5,
+               linestyles=['--', '-', '--'])
+    # plot support vectors
+    ax.scatter(svm_classifier.support_vectors_[:, 0], svm_classifier.support_vectors_[:, 1], s=100,
+               linewidth=1, facecolors='none')
